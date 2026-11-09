@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<!-- Framework unit tests only. No network beyond local WireMock. -->
+<suite name="unit" parallel="methods" thread-count="4">
+    <test name="unit">
+        <packages>
+            <package name="io.github.omarmokhtarsaad.apitest.unit"/>
+        </packages>
+        <classes>
+            <class name="io.github.omarmokhtarsaad.apitest.framework.testng.ListenerRulesTest"/>
+        </classes>
+    </test>
+</suite>

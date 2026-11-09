@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<!-- Fast, read-mostly checks that an environment is up. Run after every deploy. -->
+<suite name="smoke" parallel="methods" thread-count="4">
+    <test name="smoke">
+        <groups>
+            <run>
+                <include name="smoke"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="io.github.omarmokhtarsaad.apitest.tests.*"/>
+        </packages>
+    </test>
+</suite>

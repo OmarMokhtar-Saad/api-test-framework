@@ -1,0 +1,24 @@
+# Template for a real environment. To add one called "staging":
+#   1. cp example.properties.template staging.properties   (committed, no secrets)
+#   2. create staging.secrets.properties with the secret keys below (git-ignored),
+#      or export them as API_* environment variables in CI
+#   3. run: ./mvnw verify -Denv=staging -Dsuite=smoke
+# Full key reference: docs/CONFIGURATION.md
+
+baseUrl=https://api.example.com
+basePath=/v1
+
+# One of: none, bearer, apikey, basic, oauth2
+auth.type=oauth2
+auth.oauth2.tokenUrl=https://auth.example.com/oauth/token
+auth.oauth2.clientId=your-client-id
+# auth.oauth2.scope=users:read users:write
+
+# Secret keys: secrets file or environment variable only, never here and never -D.
+#   auth.oauth2.clientSecret   (API_AUTH_OAUTH2_CLIENT_SECRET)
+#   auth.token                 (API_AUTH_TOKEN)
+#   auth.apikey.value          (API_AUTH_APIKEY_VALUE)
+#   auth.basic.password        (API_AUTH_BASIC_PASSWORD)
+
+# Extra field or header names to mask in logs and reports, comma separated.
+# redact.extraKeys=x-session-id,accountNumber

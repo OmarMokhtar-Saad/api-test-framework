@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Error",
+  "type": "object",
+  "required": ["error", "message"],
+  "properties": {
+    "error": { "type": "string", "minLength": 1 },
+    "message": { "type": "string" },
+    "fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["field", "message"],
+        "properties": {
+          "field": { "type": "string" },
+          "message": { "type": "string" }
+        }
+      }
+    }
+  }
+}

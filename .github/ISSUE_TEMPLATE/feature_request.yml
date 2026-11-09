@@ -1,0 +1,27 @@
+name: Feature request
+description: Propose a new framework capability or a change to a convention.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What is hard or impossible today? Describe the test you want to write.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: The API or behaviour you suggest. Code sketches welcome.
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: checkboxes
+    id: fit
+    attributes:
+      label: Fit
+      options:
+        - label: The change is domain-agnostic (it belongs in `src/main`, not in one API's tests).
+        - label: It needs a design decision worth an ADR.

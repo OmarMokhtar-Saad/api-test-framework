@@ -1,0 +1,21 @@
+# Build output
+target/
+
+# Allure (results land in target/allure-results by default; these catch ad-hoc runs)
+allure-results/
+allure-report/
+.allure/
+
+# Local secrets: never commit real credentials.
+*.secrets.properties
+# Deliberate exception: fake credentials for the offline WireMock environment only.
+# They protect nothing and let `./mvnw verify` run with zero setup. See docs/CONFIGURATION.md#secrets.
+!src/test/resources/env/mock.secrets.properties
+.env
+.env.*
+
+# IDEs and OS
+.idea/
+*.iml
+.vscode/
+.DS_Store

@@ -1,0 +1,123 @@
+{
+  "mappings": [
+    {
+      "name": "unauthenticated requests are rejected",
+      "priority": 10,
+      "request": { "urlPathPattern": "/api/v1/users.*" },
+      "response": {
+        "status": 401,
+        "headers": { "Content-Type": "application/json", "WWW-Authenticate": "Bearer" },
+        "jsonBody": { "error": "unauthorized", "message": "Missing or invalid bearer token" }
+      }
+    },
+    {
+      "name": "get existing user",
+      "priority": 5,
+      "request": {
+        "method": "GET",
+        "urlPath": "/api/v1/users/1",
+        "headers": { "Authorization": { "equalTo": "Bearer mock-access-token" } }
+      },
+      "response": {
+        "status": 200,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": {
+          "id": 1,
+          "name": "Ada Example",
+          "email": "ada@example.test",
+          "role": "ADMIN",
+          "createdAt": "2026-01-15T09:30:00Z"
+        }
+      }
+    },
+    {
+      "name": "get missing user",
+      "priority": 5,
+      "request": {
+        "method": "GET",
+        "urlPath": "/api/v1/users/999",
+        "headers": { "Authorization": { "equalTo": "Bearer mock-access-token" } }
+      },
+      "response": {
+        "status": 404,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": { "error": "not_found", "message": "User 999 does not exist" }
+      }
+    },
+    {
+      "name": "create user without email",
+      "priority": 4,
+      "request": {
+        "method": "POST",
+        "urlPath": "/api/v1/users",
+        "headers": { "Authorization": { "equalTo": "Bearer mock-access-token" } },
+        "bodyPatterns": [ { "matchesJsonPath": { "expression": "$.email", "absent": true } } ]
+      },
+      "response": {
+        "status": 400,
+        "headers": { "Content-Type": "application/json" },
+        "jsonBody": {
+          "error": "validation_failed",
+          "message": "Request is invalid",
+          "fields": [ { "field": "email", "message": "must not be blank" } ]
+        }
+      }
+    },
+    {
+      "name": "create user",
+      "priority": 5,
+      "request": {
+        "method": "POST",
+        "urlPath": "/api/v1/users",
+        "headers": { "Authorization": { "equalTo": "Bearer mock-access-token" } },
+        "bodyPatterns": [ { "matchesJsonPath": "$.email" } ]
+      },
+      "response": {
+        "status": 201,
+        "headers": { "Content-Type": "application/json", "Location": "/api/v1/users/101" },
+        "body": "{\"id\":101,\"name\":\"{{jsonPath request.body '$.name'}}\",\"email\":\"{{jsonPath request.body '$.email'}}\",\"role\":\"{{jsonPath request.body '$.role'}}\",\"createdAt\":\"2026-01-15T09:30:00Z\"}",
+        "transformers": [ "response-template" ]
+      }
+    },
+    {
+      "name": "update user",
+      "priority": 5,
+      "request": {
+        "method": "PUT",
+        "urlPathPattern": "/api/v1/users/[0-9]+",
+        "headers": { "Authorization": { "equalTo": "Bearer mock-access-token" } }
+      },
+      "response": {
+        "status": 200,
+        "headers": { "Content-Type": "application/json" },
+        "body": "{\"id\":{{request.pathSegments.[3]}},\"name\":\"{{jsonPath request.body '$.name'}}\",\"email\":\"{{jsonPath request.body '$.email'}}\",\"role\":\"{{jsonPath request.body '$.role'}}\",\"createdAt\":\"2026-01-15T09:30:00Z\"}",
+        "transformers": [ "response-template" ]
+      }
+    },
+    {
+      "name": "delete user",
+      "priority": 5,
+      "request": {
+        "method": "DELETE",
+        "urlPathPattern": "/api/v1/users/[0-9]+",
+        "headers": { "Authorization": { "equalTo": "Bearer mock-access-token" } }
+      },
+      "response": { "status": 204 }
+    },
+    {
+      "name": "list users",
+      "priority": 5,
+      "request": {
+        "method": "GET",
+        "urlPath": "/api/v1/users",
+        "headers": { "Authorization": { "equalTo": "Bearer mock-access-token" } }
+      },
+      "response": {
+        "status": 200,
+        "headers": { "Content-Type": "application/json" },
+        "body": "{\"page\":{{#if request.query.page}}{{request.query.page}}{{else}}1{{/if}},\"size\":2,\"total\":4,\"items\":[{\"id\":1,\"name\":\"Ada Example\",\"email\":\"ada@example.test\",\"role\":\"ADMIN\",\"createdAt\":\"2026-01-15T09:30:00Z\"},{\"id\":2,\"name\":\"Ben Example\",\"email\":\"ben@example.test\",\"role\":\"MEMBER\",\"createdAt\":\"2026-01-16T10:00:00Z\"}]}",
+        "transformers": [ "response-template" ]
+      }
+    }
+  ]
+}

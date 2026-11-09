@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "UserPage",
+  "type": "object",
+  "required": ["page", "size", "total", "items"],
+  "additionalProperties": false,
+  "properties": {
+    "page": { "type": "integer", "minimum": 1 },
+    "size": { "type": "integer", "minimum": 0 },
+    "total": { "type": "integer", "minimum": 0 },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "email", "role", "createdAt"],
+        "properties": {
+          "id": { "type": "integer", "minimum": 1 },
+          "name": { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "role": { "enum": ["ADMIN", "MEMBER", "VIEWER"] },
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      }
+    }
+  }
+}

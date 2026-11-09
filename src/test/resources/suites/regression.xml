@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<!-- Full behavioural coverage of the API, including negative tests. -->
+<suite name="regression" parallel="methods" thread-count="4" data-provider-thread-count="4">
+    <test name="regression">
+        <groups>
+            <run>
+                <include name="regression"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="io.github.omarmokhtarsaad.apitest.tests.*"/>
+        </packages>
+    </test>
+</suite>

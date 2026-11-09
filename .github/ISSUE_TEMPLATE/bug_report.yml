@@ -1,0 +1,36 @@
+name: Bug report
+description: Something in the framework or the example tests does not work as documented.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Do not paste secrets, tokens or internal hostnames.** Redact them first.
+        Security problems go through a private advisory instead; see SECURITY.md.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected, what you saw.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: How to reproduce
+      description: The exact command (for example `./mvnw -B verify -Dsuite=smoke -Denv=mock`) and the smallest test that shows it.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant output
+      description: Failure message, stack trace or the redacted HTTP exchange from the Allure attachment.
+      render: text
+  - type: input
+    id: env
+    attributes:
+      label: Environment
+      description: Java version (`java -version`), OS, commit SHA.
+    validations:
+      required: true
