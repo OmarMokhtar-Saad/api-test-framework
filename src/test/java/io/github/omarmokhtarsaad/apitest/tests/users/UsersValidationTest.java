@@ -20,16 +20,14 @@ public class UsersValidationTest extends BaseApiTest {
     public void unknownUserReturns404() {
         Response response = new UsersApi(api()).get(999);
 
-        assertThat(response).hasStatus(404).matchesSchema(ERROR_SCHEMA);
-        assertThat(response).jsonPath("error").isEqualTo("not_found");
+        assertThat(response).hasStatus(404).matchesSchema(ERROR_SCHEMA).hasJsonPath("error", "not_found");
     }
 
     @Test(groups = "regression", description = "Creating a user without an email is rejected with 400")
     public void createWithoutEmailReturns400() {
         Response response = new UsersApi(api()).create(UserFactory.validMember().withEmail(null));
 
-        assertThat(response).hasStatus(400).matchesSchema(ERROR_SCHEMA);
-        assertThat(response).jsonPath("fields[0].field").isEqualTo("email");
+        assertThat(response).hasStatus(400).matchesSchema(ERROR_SCHEMA).hasJsonPath("fields[0].field", "email");
     }
 
     @Test(groups = "regression", description = "A request without credentials is rejected with 401")

@@ -50,9 +50,10 @@ public class UsersCrudTest extends BaseApiTest {
         User created = assertThat(response).bodyAs(User.class).actual();
         onCleanup("delete user " + created.id(), () -> users().delete(created.id()));
 
-        assertThat(response).jsonPath("email").isEqualTo(request.email());
-        assertThat(response).jsonPath("name").isEqualTo(request.name());
-        assertThat(response).jsonPath("role").isEqualTo("MEMBER");
+        assertThat(response)
+                .hasJsonPath("email", request.email())
+                .hasJsonPath("name", request.name())
+                .hasJsonPath("role", "MEMBER");
     }
 
     @Test(groups = "regression", description = "A user can be replaced with PUT")

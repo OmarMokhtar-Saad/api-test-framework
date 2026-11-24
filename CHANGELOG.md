@@ -8,6 +8,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and 
 
 ### Added
 
+- `hasJsonPath`, `hasJsonPathSize`, `hasJsonPathContaining`, `hasBody(Class, Consumer)` and
+  `ApiAssertions.assertSoftly`; `ChainedAssertionsGuardTest` enforces chained assertions.
+
 - Framework core: layered configuration with provenance and secret handling, immutable `ApiClient`,
   pluggable authentication (none, basic, API key, bearer, OAuth2 client credentials with a caching token
   provider), fluent response assertions with JSON-schema checks, redacting HTTP exchange capture,
